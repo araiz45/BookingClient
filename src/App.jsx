@@ -13,7 +13,8 @@ import PlacePage from "./pages/PlacePage";
 import BookingsPage from "./pages/BookingsPage";
 import BookingPage from "./pages/BookingPage";
 
-axios.defaults.baseURL = "http://localhost:4000/";
+axios.defaults.baseURL =
+  "https://booking-app-araix-6cf344874851.herokuapp.com/";
 axios.defaults.withCredentials = true;
 function App() {
   return (
