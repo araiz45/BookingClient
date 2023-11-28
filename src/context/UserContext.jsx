@@ -8,10 +8,14 @@ export function UserContextProvider({ children }) {
   const [ready, setReady] = useState(false);
   useEffect(() => {
     if (!user) {
-      axios.get("/profile").then(({ data }) => {
-        setUser(data);
-        setReady(true);
-      });
+      try {
+        axios.get("api/user/profile").then(({ data }) => {
+          setUser(data);
+          setReady(true);
+        });
+      } catch (error) {
+        alert("Some thing went wrong");
+      }
     }
   }, []);
   return (

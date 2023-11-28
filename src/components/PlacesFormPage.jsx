@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import Perks from "./Perks";
 import axios from "axios";
-import PhotoUploader from "../PhotoUploader";
-import AccountNavigation from "../AccountNavigation";
+import PhotoUploader from "./PhotoUploader";
+import AccountNavigation from "./AccountNavigation";
 import { Navigate, useParams } from "react-router-dom";
 export default function PlacesFormPage() {
   const { id } = useParams();
@@ -21,20 +21,24 @@ export default function PlacesFormPage() {
     if (!id) {
       return;
     }
-    axios.get("/places/" + id).then((response) => {
-      const { data } = response;
-      console.log(data);
-      setTitle(data.title);
-      setAddress(data.address);
-      setCheckIn(data.checkIn);
-      setCheckOut(data.checkOut);
-      setMaxGuests(data.maxGuests);
-      setDescription(data.description);
-      setAddedPhotos(data.photos);
-      setPerks(data.perks);
-      setExtraInfo(data.extraInfo);
-      setPrice(data.price);
-    });
+    try {
+      axios.get("/api/accomodations/places/" + id).then((response) => {
+        const { data } = response;
+        console.log(data);
+        setTitle(data.title);
+        setAddress(data.address);
+        setCheckIn(data.checkIn);
+        setCheckOut(data.checkOut);
+        setMaxGuests(data.maxGuests);
+        setDescription(data.description);
+        setAddedPhotos(data.photos);
+        setPerks(data.perks);
+        setExtraInfo(data.extraInfo);
+        setPrice(data.price);
+      });
+    } catch (error) {
+      alert("Something went wrong");
+    }
   }, [id]);
   function inputHeader(text) {
     return <h2 className="text-2xl mt-4">{text}</h2>;
@@ -58,19 +62,23 @@ export default function PlacesFormPage() {
     for (let i = 0; i < files.length; i++) {
       data.append("photos", files[i]);
     }
-    axios
-      .post("/upload", data, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      })
-      .then((response) => {
-        const { data: filenames } = response;
-        console.log(filenames);
-        setAddedPhotos((prev) => {
-          return [...prev, ...filenames];
+    try {
+      axios
+        .post("/api/photo/upload", data, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        })
+        .then((response) => {
+          const { data: filenames } = response;
+          console.log(filenames);
+          setAddedPhotos((prev) => {
+            return [...prev, ...filenames];
+          });
         });
-      });
+    } catch (error) {
+      alert("Something went wrong");
+    }
   }
   function savePlace(ev) {
     ev.preventDefault();
@@ -88,7 +96,7 @@ export default function PlacesFormPage() {
     };
     if (id) {
       // update
-      const { data: responseData } = axios.put("/places", {
+      const { data: responseData } = axios.put("/api/accomodations/places", {
         id,
         ...dataSending,
       });

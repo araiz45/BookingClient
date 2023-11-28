@@ -1,9 +1,9 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import BookingWiget from "../BookingWiget";
-import PlaceGallery from "./PlaceGallery";
-import AddressLink from "../AddressLink";
+import BookingWiget from "../components/BookingWiget";
+import PlaceGallery from "../components/PlaceGallery";
+import AddressLink from "../components/AddressLink";
 
 export default function PlacePage() {
   const { id } = useParams();
@@ -14,9 +14,13 @@ export default function PlacePage() {
       return;
     }
     (async () => {
-      const { data } = await axios.get("/place/" + id);
-      console.log(data);
-      setData(data);
+      try {
+        const { data } = await axios.get("/api/accomodations/place/" + id);
+        console.log(data);
+        setData(data);
+      } catch (error) {
+        alert("Some thing went wrong Please tryagain later");
+      }
     })();
   }, [id]);
 

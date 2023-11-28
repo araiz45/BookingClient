@@ -1,9 +1,9 @@
 // import { useState } from "react";
 import { Form, Link, Navigate, useParams } from "react-router-dom";
-import AccountNavigation from "../AccountNavigation";
+import AccountNavigation from "../components/AccountNavigation";
 import axios from "axios";
 import { useState, useEffect } from "react";
-import PlaceImg from "../PlaceImg";
+import PlaceImg from "../components/PlaceImg";
 // import PlacesFormPage from "./PlacesFormPage";
 
 export default function PlacesPage() {
@@ -11,7 +11,7 @@ export default function PlacesPage() {
   const [places, setPlaces] = useState([]);
   async function fetchAccomodation() {
     try {
-      const { data } = await axios.get("/places");
+      const { data } = await axios.get("/api/accomodations/places");
       console.log(data);
       setPlaces(data);
     } catch (error) {}

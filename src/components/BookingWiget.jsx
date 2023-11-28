@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { differenceInCalendarDays } from "date-fns";
 import { Navigate } from "react-router-dom";
 import axios from "axios";
-import { UserContext } from "./UserContext";
+import { UserContext } from "../context/UserContext";
 export default function BookingWiget({ place }) {
   const [checkIn, setCheckIn] = useState("");
   const [checkOut, setCheckOut] = useState("");
@@ -39,9 +39,13 @@ export default function BookingWiget({ place }) {
       name,
       phone,
     };
-    const { data } = await axios.post("/bookings", placeGoing);
-    console.log(data._id);
-    setRedirect(`/account/booking/${data._id}`);
+    try {
+      const { data } = await axios.post("/api/book/bookings", placeGoing);
+      console.log(data._id);
+      setRedirect(`/account/booking/${data._id}`);
+    } catch (error) {
+      alert("Something went wrong");
+    }
   };
 
   if (redirect) {

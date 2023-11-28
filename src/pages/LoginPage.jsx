@@ -1,7 +1,7 @@
 import axios from "axios";
 import { Link, Navigate } from "react-router-dom";
 import { useContext, useState } from "react";
-import { UserContext } from "../UserContext";
+import { UserContext } from "../context/UserContext";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -11,7 +11,7 @@ export default function LoginPage() {
   const handleLoginSubmit = async (ev) => {
     ev.preventDefault();
     try {
-      const { data } = await axios.post("/login", {
+      const { data } = await axios.post("/api/user/login", {
         email,
         password,
       });

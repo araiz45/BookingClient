@@ -1,10 +1,10 @@
 import { useContext } from "react";
-import { UserContext } from "../UserContext";
+import { UserContext } from "../context/UserContext";
 import { Link, Navigate, useParams } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
 import PlacesPage from "./PlacesPage";
-import AccountNavigation from "../AccountNavigation";
+import AccountNavigation from "../components/AccountNavigation";
 
 export default function AccountPage() {
   const { user, ready, setUser } = useContext(UserContext);
@@ -21,9 +21,13 @@ export default function AccountPage() {
   }
 
   async function logout() {
-    await axios.post("/logout");
-    setRedirect("/");
-    setUser(null);
+    try {
+      await axios.post("/api/user/logout");
+      setRedirect("/");
+      setUser(null);
+    } catch (error) {
+      alert("some thing went wrong");
+    }
   }
 
   if (redirect) {

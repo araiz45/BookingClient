@@ -6,9 +6,13 @@ export default function IndexPage() {
   const [places, setPlaces] = useState([]);
   useEffect(() => {
     (async () => {
-      const { data } = await axios.get("/all-places");
-      console.log(data);
-      setPlaces(data);
+      try {
+        const { data } = await axios.get("/api/accomodations/all-places");
+        console.log(data);
+        setPlaces(data);
+      } catch (error) {
+        alert("Network Error Please tryagain later");
+      }
     })();
   }, []);
   return (

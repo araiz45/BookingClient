@@ -1,18 +1,22 @@
 import axios from "axios";
-import AccountNavigation from "../AccountNavigation";
+import AccountNavigation from "../components/AccountNavigation";
 import { useEffect, useState } from "react";
-import PlaceImg from "../PlaceImg";
+import PlaceImg from "../components/PlaceImg";
 import { differenceInCalendarDays, format } from "date-fns";
 import { Link } from "react-router-dom";
-import BookingDates from "../BookingDates";
+import BookingDates from "../components/BookingDates";
 
 export default function BookingsPage() {
   const [bookings, setBookings] = useState([]);
   useEffect(() => {
     (async () => {
-      const { data } = await axios.get("/bookings");
-      console.log(data);
-      setBookings(data);
+      try {
+        const { data } = await axios.get("/api/book/bookings");
+        console.log(data);
+        setBookings(data);
+      } catch (error) {
+        alert("Something went wrong");
+      }
     })();
   }, []);
   return (
