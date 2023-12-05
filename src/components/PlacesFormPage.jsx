@@ -103,7 +103,10 @@ export default function PlacesFormPage() {
       setRedirect(true);
     } else {
       // new place
-      const { data: responseData } = axios.post("/places", dataSending);
+      const { data: responseData } = axios.post(
+        "/api/accomodations/places",
+        dataSending
+      );
       setRedirect(true);
     }
   }
